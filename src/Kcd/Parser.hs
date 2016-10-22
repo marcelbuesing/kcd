@@ -5,7 +5,8 @@ module Kcd.Parser where
 import Control.Monad (join)
 import Control.Monad.Trans.Resource
 import Data.Conduit (($$), ConduitM)
-import Data.Text (Text, unpack)
+import Data.Text (Text, pack, unpack)
+import Data.Text.Read (Reader, hexadecimal)
 import Text.XML.Stream.Parse
 import Control.Monad.Catch(MonadCatch)
 import Data.XML.Types (Event, Name(..))
@@ -111,12 +112,14 @@ parseMessageLength :: Text -> MessageLength
 parseMessageLength "auto" = Auto
 parseMessageLength i = LengthValue $ read $ unpack i
 
+newtype MessageId = MessageId { _unMessageId :: Int } deriving (Eq, Show)
+
 data Message = Message
   { _messageNotes :: Maybe Notes
   , _messageProducer :: Maybe Producer
   , _messageMultiplex :: Maybe Multiplex
   , _messageSignals :: [Signal]
-  , _messageId :: Text
+  , _messageId :: MessageId
   , _messageName :: Text
   , _messageLength :: MessageLength
   -- | Repetition interval of a cyclic network message in milliseconds
@@ -137,7 +140,7 @@ parseMessage = tagName (ns "Message") attrs $ \(id, name, length, interval, trig
   signals   <- many parseSignal
   return $ Message notes producer multiplex signals id name length interval triggered format remote
   where attrs = do
-          id        <- requireAttr "id"
+          id        <- (MessageId . readHexNumber) <$> requireAttr "id"
           name      <- requireAttr "name"
           length    <- (fromMaybe Auto . fmap parseMessageLength) <$> attr "length"
           interval  <- (fromMaybe 0) <$> attrRead "interval"
@@ -146,6 +149,10 @@ parseMessage = tagName (ns "Message") attrs $ \(id, name, length, interval, trig
           format    <- (fromMaybe "standard") <$> attr "format"
           remote    <- (fromMaybe False) <$> attrRead "remote"
           return (id, name, length, interval, triggered, count, format, remote)
+
+
+readHexNumber :: Text -> Int
+readHexNumber s = let (Right (n, _)) = hexadecimal s in n
 
 -- | A looping counter to make a group of signals (MuxGroup) alternately active at a time.
 data Multiplex = Multiplex
