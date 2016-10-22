@@ -112,7 +112,7 @@ parseMessageLength :: Text -> MessageLength
 parseMessageLength "auto" = Auto
 parseMessageLength i = LengthValue $ read $ unpack i
 
-newtype MessageId = MessageId { _unMessageId :: Int } deriving (Eq, Show)
+newtype MessageId = MessageId { _unMessageId :: Int } deriving (Eq, Show, Ord)
 
 data Message = Message
   { _messageNotes :: Maybe Notes
