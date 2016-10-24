@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveGeneric, GeneralizedNewtypeDeriving, OverloadedStrings, TemplateHaskell #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving, OverloadedStrings #-}
 
 module Kcd.Parser where
 
@@ -142,12 +142,12 @@ parseMessage = tagName (ns "Message") attrs $ \(id, name, length, interval, trig
   where attrs = do
           id        <- (MessageId . readHexNumber) <$> requireAttr "id"
           name      <- requireAttr "name"
-          length    <- (fromMaybe Auto . fmap parseMessageLength) <$> attr "length"
-          interval  <- (fromMaybe 0) <$> attrRead "interval"
-          triggered <- (fromMaybe False) <$> attrRead "triggered"
-          count     <- (fromMaybe 0) <$> attrRead "count"
-          format    <- (fromMaybe "standard") <$> attr "format"
-          remote    <- (fromMaybe False) <$> attrRead "remote"
+          length    <- maybe Auto parseMessageLength <$> attr "length"
+          interval  <- fromMaybe 0 <$> attrRead "interval"
+          triggered <- fromMaybe False <$> attrRead "triggered"
+          count     <- fromMaybe 0 <$> attrRead "count"
+          format    <- fromMaybe "standard" <$> attr "format"
+          remote    <- fromMaybe False <$> attrRead "remote"
           return (id, name, length, interval, triggered, count, format, remote)
 
 
@@ -173,7 +173,7 @@ data Multiplex = Multiplex
 basicSignalAttrs ::  AttrParser (Endianess, Int, Text, Int)
 basicSignalAttrs = do
   endianess <- (fromMaybe LittleEndian . join . fmap  parseEndianess) <$> attr "endianess"
-  length    <- (fromMaybe 1) <$> attrRead "length"
+  length    <- fromMaybe 1 <$> attrRead "length"
   name      <- requireAttr "name"
   offset    <- (read . unpack) <$> requireAttr "offset"
   return (endianess, length, name, offset)
@@ -261,14 +261,13 @@ data Value = Value
 
 
 parseValue :: MonadThrow m => ConduitM Event o m (Maybe Value)
-parseValue = tagName (ns "Value") attrs $ \value -> do
-  return value
+parseValue = tagName (ns "Value") attrs $ \value -> return value
   where attrs = do
-          min   <- (fromMaybe 0.0) <$> attrRead "min"
-          max   <- (fromMaybe 0.0) <$> attrRead "max"
-          slope <- (fromMaybe 0.0) <$> attrRead "slope"
-          intercept <- (fromMaybe 0.0) <$> attrRead "intercept"
-          unit <- (fromMaybe "1") <$> attr "unit"
+          min   <- fromMaybe 0.0 <$> attrRead "min"
+          max   <- fromMaybe 0.0 <$> attrRead "max"
+          slope <- fromMaybe 0.0 <$> attrRead "slope"
+          intercept <- fromMaybe 0.0 <$> attrRead "intercept"
+          unit <- fromMaybe "1" <$> attr "unit"
           type' <- (fromMaybe ValueTypeUnsigned . join . fmap parseValueType) <$> attr "type"
           return $ Value min max slope intercept unit type'
 
@@ -330,12 +329,12 @@ data Label = Label
   } deriving (Show, Eq)
 
 parseLabel :: MonadThrow m => ConduitM Event o m (Maybe Label)
-parseLabel = tagName (ns "Label") attrs $ \(value, name, type') -> do
+parseLabel = tagName (ns "Label") attrs $ \(value, name, type') ->
   return $ Label value name type'
   where attrs = do
-          value     <- ((read . unpack) <$> requireAttr "value")
+          value     <- (read . unpack) <$> requireAttr "value"
           name      <- requireAttr "name"
-          type'    <- (fromMaybe TypeValue . join) <$> (fmap parseBasicLabelTypeValue) <$> attr "type"
+          type'    <- (fromMaybe TypeValue . join) . fmap parseBasicLabelTypeValue <$> attr "type"
           return (value,  name, type')
 
 data LabelGroup = LabelGroup
@@ -350,8 +349,7 @@ data LabelGroup = LabelGroup
   } deriving (Show, Eq)
 
 parseLabelGroup :: MonadThrow m => ConduitM Event o m (Maybe LabelGroup)
-parseLabelGroup = tagName (ns "LabelGroup") attrs $ \(from, to, name, type') -> do
-  return $ LabelGroup from to name type'
+parseLabelGroup = tagName (ns "LabelGroup") attrs $ \(from, to, name, type') ->  return $ LabelGroup from to name type'
   where attrs = do
           from  <- requireAttr "from"
           to    <- requireAttr "to"
