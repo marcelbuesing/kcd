@@ -1,0 +1,42 @@
+<NetworkDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns= "http://kayak.2codeornot2code.org/1.0" xsi:noNamespaceSchemaLocation="Definition.xsd">
+  <Document name="???" version="???" author="???" company="???" date="???" />
+  <Node id="str1234" name="str1234">
+    <Var name="str1234">
+      <Notes>str1234</Notes>
+      <Value type="unsigned" slope="3.1415926535" intercept="3.1415926535" unit="str1234" min="3.1415926535" max="3.1415926535" />
+    </Var>
+  </Node>
+  <Bus name="str1234" baudrate="33">
+    <Message id="str1234" name="str1234" length="auto" interval="33" triggered="true" count="33" format="standard" remote="true">
+      <Notes>str1234</Notes>
+      <Producer>
+        <NodeRef id="str1234" />
+      </Producer>
+      <Multiplex endianess="little" length="745" name="str1234" offset="33">
+        <MuxGroup count="12345">
+          <Signal endianess="little" length="745" name="str1234" offset="33">
+            <Notes>str1234</Notes>
+            <Consumer>
+              <NodeRef id="str1234" />
+            </Consumer>
+            <Value type="unsigned" slope="3.1415926535" intercept="3.1415926535" unit="str1234" min="3.1415926535" max="3.1415926535" />
+            <LabelSet />
+          </Signal>
+        </MuxGroup>
+        <Notes>str1234</Notes>
+        <Consumer>
+          <NodeRef id="str1234" />
+        </Consumer>
+        <Value type="unsigned" slope="3.1415926535" intercept="3.1415926535" unit="str1234" min="3.1415926535" max="3.1415926535" />
+      </Multiplex>
+      <Signal endianess="little" length="745" name="str1234" offset="33">
+        <Notes>str1234</Notes>
+        <Consumer>
+          <NodeRef id="str1234" />
+        </Consumer>
+        <Value type="unsigned" slope="3.1415926535" intercept="3.1415926535" unit="str1234" min="3.1415926535" max="3.1415926535" />
+        <LabelSet />
+      </Signal>
+    </Message>
+  </Bus>
+</NetworkDefinition>
