@@ -2,17 +2,17 @@
 
 module Kcd.Parser where
 
-import Control.Monad (join)
-import Control.Monad.Trans.Resource
-import Data.Conduit (($$), ConduitM)
-import Data.Text (Text, pack, unpack)
-import Data.Text.Read (Reader, hexadecimal)
-import Text.XML.Stream.Parse
-import Control.Monad.Catch(MonadCatch)
-import Data.XML.Types (Event, Name(..))
-import Control.Applicative((<|>))
-import Data.Maybe (fromMaybe)
-import Data.Monoid ((<>))
+import           Control.Applicative          ((<|>))
+import           Control.Monad                (join)
+import           Control.Monad.Catch          (MonadCatch, MonadThrow)
+import           Control.Monad.Trans.Resource (runResourceT)
+import           Data.Conduit                 (($$), ConduitM)
+import           Data.Maybe                   (fromMaybe)
+import           Data.Monoid                  ((<>))
+import           Data.Text                    (Text, pack, unpack)
+import           Data.Text.Read               (Reader, hexadecimal)
+import           Data.XML.Types               (Event, Name(..))
+import           Text.XML.Stream.Parse
 
 parseSettings :: ParseSettings
 parseSettings = def { psDecodeEntities   = decodeHtmlEntities
