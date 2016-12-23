@@ -1,8 +1,11 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving, OverloadedStrings #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 module Kcd.Parser where
 
 import           Control.Applicative          ((<|>))
+import           Control.Lens.TH              (makeLenses)
 import           Control.Monad                (join)
 import           Control.Monad.Catch          (MonadCatch, MonadThrow)
 import           Control.Monad.Trans.Resource (runResourceT)
@@ -150,7 +153,6 @@ parseMessage = tagName (ns "Message") attrs $ \(id, name, length, interval, trig
           remote    <- fromMaybe False <$> attrRead "remote"
           return (id, name, length, interval, triggered, count, format, remote)
 
-
 readHexNumber :: Text -> Int
 readHexNumber s = let (Right (n, _)) = hexadecimal s in n
 
@@ -258,7 +260,6 @@ data Value = Value
     -- | Datatype of the value e.g. "unsigned","signed" or IEE754 "single", "double".
   , _valueType :: ValueType
   } deriving (Show, Eq)
-
 
 parseValue :: MonadThrow m => ConduitM Event o m (Maybe Value)
 parseValue = tagName (ns "Value") attrs $ \value -> return value
@@ -397,3 +398,20 @@ parseLabelSet = tagNoAttr (ns "LabelSet") $ do
   labels      <- many parseLabel
   labelGroups <- many parseLabelGroup
   return $ LabelSet labels labelGroups
+
+makeLenses ''Bus
+makeLenses ''Consumer
+makeLenses ''Document
+makeLenses ''Label
+makeLenses ''LabelGroup
+makeLenses ''LabelSet
+makeLenses ''Message
+makeLenses ''Multiplex
+makeLenses ''MuxGroup
+makeLenses ''NetworkDefinition
+makeLenses ''Node
+makeLenses ''NodeRef
+makeLenses ''Producer
+makeLenses ''Signal
+makeLenses ''Value
+makeLenses ''Var
