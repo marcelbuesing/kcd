@@ -3,8 +3,10 @@
 
 name:                kcd
 version:             0.1.0.0
--- synopsis:
--- description:
+synopsis:            Kayak .kcd parsing library.
+description:         Parse Kayak .kcd files.
+                     Kcd files list CAN messages details, their signal's and signal details,
+                     e.g. the signal offset in the CAN data frame or the signal type.
 license:             MIT
 license-file:        LICENSE
 author:              marcelbuesing
@@ -14,6 +16,8 @@ category:            Data
 build-type:          Simple
 extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
+homepage:            https://github.com/marcelbuesing/kcd
+bug-reports:         https://github.com/marcelbuesing/kcd/issues
 
 library
   exposed-modules:     Kcd

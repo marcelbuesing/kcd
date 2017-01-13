@@ -2,6 +2,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
+-- |
+-- > import qualified Kcd.Parser as KCD
+-- > main = do
+-- >   kcd <- KCD.parseKcdFile "example.kcd"
+-- >   print kcd
+
 module Kcd.Parser
   (
     BasicLabelTypeValue (..)
