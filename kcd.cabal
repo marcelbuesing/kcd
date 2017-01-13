@@ -12,7 +12,7 @@ license-file:        LICENSE
 author:              marcelbuesing
 maintainer:          buesing.marcel@googlemail.com
 -- copyright:
-category:            Data
+category:            Text
 build-type:          Simple
 extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
