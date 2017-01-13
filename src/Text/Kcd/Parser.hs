@@ -8,7 +8,7 @@
 -- >   kcd <- KCD.parseKcdFile "example.kcd"
 -- >   print kcd
 
-module Kcd.Parser
+module Text.Kcd.Parser
   (
     parseKcdFile
   , parseNetworkDefinition

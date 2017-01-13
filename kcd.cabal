@@ -20,8 +20,8 @@ homepage:            https://github.com/marcelbuesing/kcd
 bug-reports:         https://github.com/marcelbuesing/kcd/issues
 
 library
-  exposed-modules:     Kcd
-                     , Kcd.Parser
+  exposed-modules:     Text.Kcd
+                     , Text.Kcd.Parser
   -- other-modules:
   -- other-extensions:
   build-depends:       base >=4.9 && <4.10
