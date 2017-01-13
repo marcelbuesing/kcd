@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                kcd
-version:             0.1.0.0
+version:             0.2.0.0
 synopsis:            Kayak .kcd parsing library.
 description:         Parse Kayak .kcd files.
                      Kcd files list CAN messages details, their signal's and signal details,
