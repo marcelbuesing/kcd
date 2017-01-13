@@ -10,7 +10,9 @@
 
 module Kcd.Parser
   (
-    BasicLabelTypeValue (..)
+    parseKcdFile
+  , parseNetworkDefinition
+  , BasicLabelTypeValue (..)
   , Bus (..)
   , Consumer (..)
   , Document (..)
@@ -32,8 +34,6 @@ module Kcd.Parser
   , Value (..)
   , ValueType (..)
   , Var (..)
-  , parseKcdFile
-  , parseNetworkDefinition
   )
 where
 
