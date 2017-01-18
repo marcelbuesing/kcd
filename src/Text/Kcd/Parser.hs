@@ -1,6 +1,5 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
 
 -- |
 -- > import qualified Kcd.Parser as KCD
@@ -38,7 +37,6 @@ module Text.Kcd.Parser
 where
 
 import           Control.Applicative          ((<|>))
-import           Control.Lens.TH              (makeLenses)
 import           Control.Monad                (join)
 import           Control.Monad.Catch          (MonadCatch, MonadThrow)
 import           Control.Monad.Trans.Resource (runResourceT)
@@ -431,20 +429,3 @@ ns :: Text -> Name
 ns n = let ns' = Just "http://kayak.2codeornot2code.org/1.0"
            pfx = Nothing
            in Name n ns' pfx
-
-makeLenses ''Bus
-makeLenses ''Consumer
-makeLenses ''Document
-makeLenses ''Label
-makeLenses ''LabelGroup
-makeLenses ''LabelSet
-makeLenses ''Message
-makeLenses ''Multiplex
-makeLenses ''MuxGroup
-makeLenses ''NetworkDefinition
-makeLenses ''Node
-makeLenses ''NodeRef
-makeLenses ''Producer
-makeLenses ''Signal
-makeLenses ''Value
-makeLenses ''Var
