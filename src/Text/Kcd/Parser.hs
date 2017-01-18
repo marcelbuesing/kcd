@@ -75,7 +75,7 @@ data Document = Document
 -- |  network transport system that transfers the data between several nodes.
 data Bus = Bus
   { _busMessages :: [Message]
-    -- | Human-readable name of the bus network (e.g. "Comfort").
+    -- | Human-readable name of the bus network (e.g. Comfort).
   , _busName :: Text
     -- | Nominal data transfer rate in baud (e.g. 500000, 125000, 100000 or 83333).
   , _busBaudrate :: Int
